@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weather Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="logo">🌤️</div>
+      <nav>
+        <ul>
+          <li class="active">Weather</li>
+          <li>Cities</li>
+          <li>Map</li>
+          <li>Settings</li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <header class="search-bar">
+        <input type="text" placeholder="Search for cities">
+      </header>
+
+      <section class="weather-main">
+        <div class="current-weather">
+          <h1>Madrid</h1>
+          <p>Chance of rain: 0%</p>
+          <div class="temperature">31°</div>
+          <div class="sun-icon">☀️</div>
+        </div>
+
+        <div class="hourly-forecast">
+          <h3>Today's Forecast</h3>
+          <div class="hours">
+            <div><p>6:00 AM</p><div>☁️</div><span>25°</span></div>
+            <div><p>9:00 AM</p><div>⛅</div><span>28°</span></div>
+            <div><p>12:00 PM</p><div>☀️</div><span>33°</span></div>
+            <div><p>3:00 PM</p><div>☀️</div><span>34°</span></div>
+            <div><p>6:00 PM</p><div>☀️</div><span>32°</span></div>
+            <div><p>9:00 PM</p><div>☁️</div><span>30°</span></div>
+          </div>
+        </div>
+
+        <div class="air-conditions">
+          <h3>Air Conditions</h3>
+          <div class="metrics">
+            <div><strong>Real Feel</strong><span>30°</span></div>
+            <div><strong>Wind</strong><span>0.2 km/h</span></div>
+            <div><strong>Chance of Rain</strong><span>0%</span></div>
+            <div><strong>UV Index</strong><span>3</span></div>
+          </div>
+          <button>See more</button>
+        </div>
+
+        <div class="daily-forecast">
+          <h3>7-Day Forecast</h3>
+          <ul>
+            <li><span>Today</span><span>☀️ Sunny</span><span>36/22</span></li>
+            <li><span>Tue</span><span>☀️ Sunny</span><span>37/21</span></li>
+            <li><span>Wed</span><span>☀️ Sunny</span><span>37/21</span></li>
+            <li><span>Thu</span><span>☁️ Cloudy</span><span>37/21</span></li>
+            <li><span>Fri</span><span>☁️ Cloudy</span><span>37/21</span></li>
+            <li><span>Sat</span><span>🌧️ Rainy</span><span>37/21</span></li>
+            <li><span>Sun</span><span>⚡ Storm</span><span>37/21</span></li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

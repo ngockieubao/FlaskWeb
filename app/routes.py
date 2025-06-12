@@ -10,3 +10,7 @@ def home():
 @main.route('/about')
 def about():
     return render_template('about.html')
+
+@main.route('/weather')
+def weather():
+    return render_template('weather.html')

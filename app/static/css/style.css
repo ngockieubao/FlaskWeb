@@ -86,7 +86,7 @@ body {
   font-size: 48px;
 }
 
-.hourly-forecast, .air-conditions, .daily-forecast {
+.hourly-forecast, .daily-forecast {
   background-color: #334155;
   padding: 20px;
   border-radius: 12px;

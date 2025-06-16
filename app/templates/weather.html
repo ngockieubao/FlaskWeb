@@ -6,10 +6,11 @@
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
 <div class="container">
     <aside class="sidebar">
-        <div class="logo"><a href="/">⛩</a></div>
+        <div class="logo-home"><a href="/">🏠</a></div>
         <nav>
             <ul>
                 <li class="active">Weather</li>
@@ -26,54 +27,34 @@
                 <input name="city" placeholder="Enter city" required type="text">
                 <button type="submit">Search</button>
             </form>
-
-            {% if coords %}
-            <h3>Result for: {{ coords.display_name }}</h3>
-            <p>Latitude: {{ coords.lat }}</p>
-            <p>Longitude: {{ coords.lon }}</p>
-            {% elif request.method == "POST" %}
-            <p>No result found.</p>
-            {% endif %}
         </header>
 
         <section class="weather-main">
             <div class="current-weather">
+                <!-- show city -->
                 {% if coords %}
                 <h1>{{ coords.display_name }}</h1>
                 {% elif request.method == "POST" %}
                 <p>No result found.</p>
                 {% endif %}
-
-                <p>Chance of rain: 0%</p>
-                <div class="temperature">31°</div>
-                <div class="sun-icon">☀️</div>
+                <!-- show current weather -->
+                {% if weather %}
+                <div class="latitude">Lat: {{ weather.response.Latitude() }}°N</div>
+                <div class="longitude">Lon: {{ weather.response.Longitude() }}°E</div>
+                <p>Timezone: {{ weather.response.Timezone() }} {{ weather.response.TimezoneAbbreviation() }}</p>
+                <div class="current-time">Current time: {{ weather.current.time | format_time }}</div>
+                <div class="current-temperature">Current temperature: {{ weather.current.temperature_2m }}°C</div>
+                <div class="apparent-temperature">Current apparent temperature: {{ weather.current.apparent_temperature }}°C</div>
+                <div class="current-humidity">Current humidity: {{ weather.current.relative_humidity_2m }}%</div>
+                <div class="weather-icon">Current weather code: {{ weather.current.weather_code | weather_icon }}</div>
+                {% elif request.method == "POST" %}
+                <p>Không tìm thấy dữ liệu thời tiết.</p>
+                {% endif %}
             </div>
-
+            <!-- show hourly-forecast weather -->
             <div class="hourly-forecast">
                 <h1>Today's Forecast</h1>
                 <div class="hours">
-                    {% if weather %}
-                    <h2>Current Weather</h2>
-                    <p>🌡️ Temp: {{ weather.current.temperature_2m }}°C</p>
-                    <p>💨 Wind Speed: {{ weather.current.wind_speed_10m }} km/h</p>
-
-                    <h2>24 hours forecast</h2>
-                    <div class="forecast-item">
-                        <ul>
-                            {% for i in range(24) %}
-                            <li>
-                                <p>{{ weather.hourly.time[i] }}<br></p>
-                                <div>Temp: {{ weather.hourly.temperature_2m[i] }}°C</div>
-                                <span>Humidity: {{ weather.hourly.relative_humidity_2m[i] }}%</span>
-                                <span>Wind: {{ weather.hourly.wind_speed_10m[i] }} km/h</span>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% elif request.method == "POST" %}
-                    <p>No weather data found.</p>
-                    {% endif %}
-
                     <div><p>6:00 AM</p>
                         <div>☁️</div>
                         <span>25°</span></div>
@@ -94,7 +75,7 @@
                         <span>30°</span></div>
                 </div>
             </div>
-
+            <!-- show daily-forecast weather -->
             <div class="daily-forecast">
                 <h3>7-Day Forecast</h3>
                 <ul>

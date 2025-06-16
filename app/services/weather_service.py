@@ -42,6 +42,14 @@ def fetch_weather_data(lat, lon):
         print(f"Current temperature_2m {current_temperature_2m}")
         print(f"Current relative_humidity_2m {current_relative_humidity_2m}")
 
+        current_data = {
+            "weather_code": current.Variables(0).Value(),
+            "apparent_temperature": current.Variables(1).Value(),
+            "temperature_2m": current.Variables(2).Value(),
+            "relative_humidity_2m": current.Variables(3).Value(),
+            "time": pd.to_datetime(current.Time(), unit="s").strftime('%Y-%m-%d %H:%M')
+        }
+
         # Process hourly data. The order of variables needs to be the same as requested.
         hourly = response.Hourly()
         hourly_temperature_2m = hourly.Variables(0).ValuesAsNumpy()
@@ -77,6 +85,13 @@ def fetch_weather_data(lat, lon):
 
         daily_dataframe = pd.DataFrame(data=daily_data)
         print(daily_dataframe)
+
+        return {
+            "response": response,
+            "current": current_data
+            # "hourly": hourly_data,
+            # "daily": daily_data
+        }
 
     except requests.RequestException as e:
         print(f"[ERROR] Weather API failed: {e}")

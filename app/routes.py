@@ -16,13 +16,13 @@ def about():
 @main.route('/weather',  methods=["GET","POST"])
 def weather():
     coords = None
-    weather_data = None
+    weather = None
     if request.method == "POST":
         city_name = request.form.get("city")
         coords = get_coordinates_nominatim(city_name)
         if coords:
             lat = coords["lat"]
             lon = coords["lon"]
-            weather_data = fetch_weather_data(lat, lon)
+            weather = fetch_weather_data(lat, lon)
 
-    return render_template('weather.html', coords=coords, weather=weather_data)
+    return render_template('weather.html', coords=coords, weather=weather)

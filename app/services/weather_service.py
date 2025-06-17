@@ -64,7 +64,13 @@ def fetch_weather_data(lat, lon):
         hourly_data["temperature_2m"] = hourly_temperature_2m
 
         hourly_dataframe = pd.DataFrame(data=hourly_data)
-        print(hourly_dataframe)
+        # print(hourly_dataframe)
+
+        # Format hourly dataframe to list of dicts
+        hourly_formatted = hourly_dataframe.copy()
+        hourly_formatted["date"] = hourly_formatted["date"].dt.strftime('%Y-%m-%d %H:%M')
+        hourly_data = hourly_formatted.to_dict(orient="records")
+        print(hourly_data)
 
         # Process daily data. The order of variables needs to be the same as requested.
         daily = response.Daily()
@@ -84,13 +90,19 @@ def fetch_weather_data(lat, lon):
         daily_data["temperature_2m_min"] = daily_temperature_2m_min
 
         daily_dataframe = pd.DataFrame(data=daily_data)
-        print(daily_dataframe)
+        # print(daily_dataframe)
+
+        # Format daily dataframe to list of dicts
+        daily_formatted = daily_dataframe.copy()
+        daily_formatted["date"] = daily_formatted["date"].dt.strftime('%Y-%m-%d')
+        daily_data = daily_formatted.to_dict(orient="records")
+        print(daily_data)
 
         return {
             "response": response,
-            "current": current_data
-            # "hourly": hourly_data,
-            # "daily": daily_data
+            "current": current_data,
+            "hourly": hourly_data,
+            "daily": daily_data
         }
 
     except requests.RequestException as e:

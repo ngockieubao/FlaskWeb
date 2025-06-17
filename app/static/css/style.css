@@ -103,6 +103,32 @@ body {
   font-size: 14px;
 }
 
+.hourly-container {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* 6 cột */
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.hour-card {
+  color: white;
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+.hour-time {
+  font-size: 14px;
+  font-weight: bold;
+}
+.hour-icon {
+  font-size: 20px;
+  margin: 5px 0;
+}
+.hour-temp {
+  font-size: 16px;
+}
+
 .metrics {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

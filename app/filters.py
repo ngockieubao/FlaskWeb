@@ -3,7 +3,21 @@ from datetime import datetime
 def format_time(value):
     try:
         dt = datetime.fromisoformat(value)
-        return dt.strftime('%-I:%M %p')  # "6:00 AM"
+        return dt.strftime('%H:%M')  # "17:00"
+    except:
+        return value
+
+def format_temp(value):
+    try:
+        temp = round(float(value))
+        return int(temp)
+    except (ValueError, TypeError):
+        return value
+
+def format_weather_code(value):
+    try:
+        code = round(value, 0)
+        return code
     except:
         return value
 
@@ -21,3 +35,9 @@ def weather_icon(code):
         return "❄️"
     else:
         return "❓"
+
+def format_timezone(value):
+    try:
+        return value.decode("utf-8").strip()
+    except AttributeError:
+        return str(value).strip()

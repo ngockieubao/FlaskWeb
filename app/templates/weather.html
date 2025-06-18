@@ -43,10 +43,9 @@
                 <div class="longitude">Lon: {{ weather.response.Longitude() }}°E</div>
                 <p>Timezone: {{ weather.response.Timezone() | format_timezone }} - {{ weather.response.TimezoneAbbreviation() | format_timezone }}</p>
                 <div class="current-time">Current time: {{ weather.current.time | format_time }}</div>
-                <div class="current-temperature">Current temperature: {{ weather.current.temperature_2m | format_temp }}°C</div>
-                <div class="apparent-temperature">Current apparent temperature: {{ weather.current.apparent_temperature | format_temp }}°C
-                </div>
-                <div class="current-humidity">Current humidity: {{ weather.current.relative_humidity_2m }}%</div>
+                <div class="current-temperature">Current temperature: {{ weather.current.temperature_2m | format_round_float_to_int }}°C</div>
+                <div class="apparent-temperature">Current apparent temperature: {{ weather.current.apparent_temperature | format_round_float_to_int }}°C</div>
+                <div class="current-humidity">Current humidity: {{ weather.current.relative_humidity_2m | format_round_float_to_int }}%</div>
                 <div class="weather-icon">Current weather code: {{ weather.current.weather_code | weather_icon }}</div>
                 {% elif request.method == "POST" %}
                 <p>Không tìm thấy dữ liệu thời tiết.</p>
@@ -59,8 +58,11 @@
                     {% for hour in weather.hourly %}
                     <div class="hour-card">
                         <div class="hour-time">{{ hour.date | format_time }}</div> <!-- Chỉ hiển thị "HH:MM" -->
-                        <div class="hour-icon">☀️</div> <!-- Thay bằng icon thật nếu có -->
-                        <div class="hour-temp">{{ hour.temperature_2m | format_temp }}°</div>
+                        <div class="hour-icon">{{ hour.weather_code | weather_icon }}</div>
+                        <div class="hour-temp">🌡️{{ hour.temperature_2m | format_round_float_to_int }}°</div>
+                        <div class="hour-relative-humidity">💧{{ hour.relative_humidity_2m | format_round_float_to_int }}%</div>
+                        <div class="hour-visibility">👁️‍🗨️{{ hour.visibility | format_visibility }}km</div>
+                        <div class="hour-precipitation-probability">☔{{ hour.precipitation_probability | format_round_float_to_int }}%</div>
                     </div>
                     {% endfor %}
                 </div>
@@ -68,32 +70,10 @@
             <!-- show daily-forecast weather -->
             <div class="daily-forecast">
                 <h3>7-Day Forecast</h3>
-
-                <table border="1">
-                    <tr>
-                        <th>Ngày</th>
-                        <th>Mã thời tiết</th>
-                        <th>Nhiệt độ cao nhất (°C)</th>
-                        <th>Nhiệt độ thấp nhất (°C)</th>
-                    </tr>
-                    {% for day in weather.daily %}
-                    <tr>
-                        <td>{{ day.date }}</td>
-                        <td>{{ day.weather_code }}</td>
-                        <td>{{ day.temperature_2m_max }}</td>
-                        <td>{{ day.temperature_2m_min }}</td>
-                    </tr>
-                    {% endfor %}
-                </table>
-
                 <ul>
-                    <li><span>Today</span><span>☀️ Sunny</span><span>36/22</span></li>
-                    <li><span>Tue</span><span>☀️ Sunny</span><span>37/21</span></li>
-                    <li><span>Wed</span><span>☀️ Sunny</span><span>37/21</span></li>
-                    <li><span>Thu</span><span>☁️ Cloudy</span><span>37/21</span></li>
-                    <li><span>Fri</span><span>☁️ Cloudy</span><span>37/21</span></li>
-                    <li><span>Sat</span><span>🌧️ Rainy</span><span>37/21</span></li>
-                    <li><span>Sun</span><span>⚡ Storm</span><span>37/21</span></li>
+                    {% for day in weather.daily %}
+                    <li><span>{{ day.date }}</span><span>{{ day.weather_code | weather_icon }}</span><span>{{ day.temperature_2m_max | format_round_float_to_int }}°/{{ day.temperature_2m_min | format_round_float_to_int }}°</span></li>
+                    {% endfor %}
                 </ul>
             </div>
         </section>
